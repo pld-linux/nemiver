@@ -58,6 +58,9 @@ Summary:	Header files for Nemiver library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Nemivera
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	glibmm-devel >= 2.8.2
+Requires:	gnome-vfs2-devel >= 2.14.0
+Requires:	libxml2-devel >= 1:2.6.22
 
 %description devel
 Header files for Nemiver library.
