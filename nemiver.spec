@@ -2,16 +2,18 @@ Summary:	C/C++ debugger for GNOME
 Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
 Version:	0.3.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.3/%{name}-%{version}.tar.bz2
 # Source0-md5:	289d46e97c125b95fdc5de9dd9736d7c
 Patch0:		%{name}-desktop.patch
+Patch1:		%{name}-configure.patch
 URL:		http://home.gna.org/nemiver/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
+BuildRequires:	boost-call_traits-devel
 BuildRequires:	glibmm-devel >= 2.8.2
 BuildRequires:	gnome-vfs2-devel >= 2.14.0
 BuildRequires:	gtkmm-devel >= 2.6.0
@@ -38,7 +40,7 @@ debug C/C++ programs.
 %description -l pl.UTF-8
 Nemiver to próba napisania samodzielnego graficznego debuggera dobrze
 integrującego się ze środowiskiem graficznym GNOME. Aktualnie zawiera
-backend wykorzystujący dobrzez znany GNU Debugger (gdb) do śledzenia
+backend wykorzystujący dobrze znany GNU Debugger (gdb) do śledzenia
 programów w C/C++.
 
 %package libs
@@ -83,6 +85,7 @@ Statyczna biblioteka Nemivera.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__glib_gettextize}
@@ -94,7 +97,8 @@ Statyczna biblioteka Nemivera.
 %{__automake}
 %configure \
 	--disable-schemas-install
-%{__make}
+%{__make} \
+	GDB_PROG='%{_bindir}/gdb'
 
 %install
 rm -rf $RPM_BUILD_ROOT
