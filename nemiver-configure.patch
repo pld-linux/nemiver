@@ -1,0 +1,17 @@
+diff -urN nemiver-0.3.0/configure.ac nemiver-0.3.0.new/configure.ac
+--- nemiver-0.3.0/configure.ac	2007-01-08 10:48:10.000000000 +0100
++++ nemiver-0.3.0.new/configure.ac	2007-04-15 14:42:56.000000000 +0200
+@@ -52,13 +52,6 @@
+ AC_LANG_CPLUSPLUS
+ AC_LANG_COMPILER_REQUIRE
+ 
+-AC_PATH_PROG(GDB_PROG,gdb)
+-
+-if test x$GDB_PROG = x ; then
+-    AC_MSG_ERROR([didn't find the gdb debugger. please, install it.])
+-fi
+-AC_SUBST(GDB_PROG)
+-
+ ENABLE_IDEBUGGER_ONLY=no
+ ENABLE_DBGENGINE=yes
+ ENABLE_WORKBENCH=yes
