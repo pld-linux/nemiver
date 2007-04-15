@@ -1,4 +1,5 @@
 Summary:	C/C++ debugger for GNOME
+Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
 Version:	0.3.0
 Release:	1
@@ -34,29 +35,47 @@ that integrates well in the GNOME desktop environment. It currently
 features a backend which uses the well known GNU Debugger (gdb) to
 debug C/C++ programs.
 
+%description -l pl.UTF-8
+Nemiver to próba napisania samodzielnego graficznego debuggera dobrze
+integrującego się ze środowiskiem graficznym GNOME. Aktualnie zawiera
+backend wykorzystujący dobrzez znany GNU Debugger (gdb) do śledzenia
+programów w C/C++.
+
 %package libs
 Summary:	Nemiver library
+Summary(pl.UTF-8):	Biblioteka Nemivera
 Group:		Libraries
 Requires(post,postun):	/sbin/ldconfig
 
 %description libs
 Nemiver shared library.
 
+%description libs -l pl.UTF-8
+Biblioteka współdzielona Nemivera.
+
 %package devel
 Summary:	Header files for Nemiver library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Nemivera
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description devel
 Header files for Nemiver library.
 
+%description devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki Nemivera.
+
 %package static
 Summary:	Static Nemiver library
+Summary(pl.UTF-8):	Statyczna biblioteka Nemivera
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static Nemiver library.
+
+%description static -l pl.UTF-8
+Statyczna biblioteka Nemivera.
 
 %prep
 %setup -q
@@ -100,8 +119,8 @@ rm -rf $RPM_BUILD_ROOT
 %postun
 %update_icon_cache hicolor
 
-%post libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
