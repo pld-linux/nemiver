@@ -28,6 +28,7 @@ BuildRequires:	vte-devel >= 0.12.0
 Requires(post,postun):	gtk+2
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,preun):	GConf2
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	gdb
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -61,7 +62,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Nemivera
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glibmm-devel >= 2.8.2
-Requires:	gnome-vfs2-devel >= 2.14.0
+Requires:	libgtop-devel >= 2.14
 Requires:	libxml2-devel >= 1:2.6.22
 
 %description devel
