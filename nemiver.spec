@@ -13,7 +13,7 @@ URL:		http://home.gna.org/nemiver/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
-BuildRequires:	boost-call_traits-devel
+BuildRequires:	boost-devel >= 1.35.0
 BuildRequires:	glibmm-devel >= 2.8.2
 BuildRequires:	gnome-vfs2-devel >= 2.14.0
 BuildRequires:	gtkmm-devel >= 2.6.0
