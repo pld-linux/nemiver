@@ -1,12 +1,12 @@
 Summary:	C/C++ debugger for GNOME
 Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
-Version:	0.4.0
+Version:	0.5.3
 Release:	1
 License:	GPL
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.4/%{name}-%{version}.tar.bz2
-# Source0-md5:	0df4c48b0b1f09b46498a71344b4e3e8
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.5/%{name}-%{version}.tar.bz2
+# Source0-md5:	27a40f6dee264053ea70db344944a967
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-configure.patch
 URL:		http://home.gna.org/nemiver/
@@ -31,6 +31,7 @@ Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	gdb
+Obsoletes:	nemiver-libs < 0.5.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -44,18 +45,6 @@ Nemiver to próba napisania samodzielnego graficznego debuggera dobrze
 integrującego się ze środowiskiem graficznym GNOME. Aktualnie zawiera
 backend wykorzystujący dobrze znany GNU Debugger (gdb) do śledzenia
 programów w C/C++.
-
-%package libs
-Summary:	Nemiver library
-Summary(pl.UTF-8):	Biblioteka Nemivera
-Group:		Libraries
-Requires(post,postun):	/sbin/ldconfig
-
-%description libs
-Nemiver shared library.
-
-%description libs -l pl.UTF-8
-Biblioteka współdzielona Nemivera.
 
 %package devel
 Summary:	Header files for Nemiver library
@@ -159,16 +148,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/nemiver/plugins/dbgperspective/sqlscripts
 %dir %{_omf_dest_dir}/nemiver
 %{_omf_dest_dir}/nemiver/nemiver-C.omf
+%lang(es) %{_omf_dest_dir}/nemiver/nemiver-es.omf
+%lang(oc) %{_omf_dest_dir}/nemiver/nemiver-oc.omf
 %lang(sv) %{_omf_dest_dir}/nemiver/nemiver-sv.omf
-
-%files libs
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libnemivercommon.so.*.*.*
+%{_mandir}/man1/nemiver.1*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libnemivercommon.so
-%{_libdir}/libnemivercommon.la
+%attr(755,root,root) %{_libdir}/nemiver/libnemivercommon.so
+%{_libdir}/nemiver/libnemivercommon.la
 %dir %{_includedir}/nemiver
 %dir %{_includedir}/nemiver/dynmods
 %{_includedir}/nemiver/dynmods/*.h
@@ -178,4 +166,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libnemivercommon.a
+%{_libdir}/nemiver/libnemivercommon.a
