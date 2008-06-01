@@ -29,7 +29,6 @@ Requires(post,postun):	gtk+2
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
-Requires:	%{name}-libs = %{version}-%{release}
 Requires:	gdb
 Obsoletes:	nemiver-libs < 0.5.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -50,7 +49,6 @@ programów w C/C++.
 Summary:	Header files for Nemiver library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Nemivera
 Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glibmm-devel >= 2.8.2
 Requires:	libgtop-devel >= 2.14
 Requires:	libxml2-devel >= 1:2.6.22
@@ -119,9 +117,6 @@ rm -rf $RPM_BUILD_ROOT
 %postun
 %scrollkeeper_update_postun
 %update_icon_cache hicolor
-
-%post	libs -p /sbin/ldconfig
-%postun	libs -p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
