@@ -1,12 +1,12 @@
 Summary:	C/C++ debugger for GNOME
 Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
-Version:	0.6.1
+Version:	0.6.3
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.6/%{name}-%{version}.tar.bz2
-# Source0-md5:	69e379fca326ad0d2d8e832e1db0ba2d
+# Source0-md5:	0b420acf4695188c8da675926011169a
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-configure.patch
 URL:		http://home.gna.org/nemiver/
@@ -14,15 +14,20 @@ BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	boost-devel >= 1.35.0
-BuildRequires:	glibmm-devel >= 2.8.2
-BuildRequires:	gnome-vfs2-devel >= 2.14.0
-BuildRequires:	gtkmm-devel >= 2.6.0
-BuildRequires:	intltool >= 0.35.0
+BuildRequires:	gettext-devel
+BuildRequires:	ghex-devel >= 2.22.0
+BuildRequires:	glibmm-devel >= 2.16.0
+BuildRequires:	gnome-doc-utils >= 0.14.0
+BuildRequires:	gtkmm-devel >= 2.12.0
+BuildRequires:	gtksourceviewmm2-devel >= 2.2.0
+BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libglademm-devel >= 2.6.0
-BuildRequires:	libgtksourceviewmm-devel >= 0.3.0
-BuildRequires:	libgtop-devel >= 2.14
+BuildRequires:	libgtop-devel >= 2.14.0
 BuildRequires:	libtool
-BuildRequires:	libxml2-devel >= 1:2.6.22
+BuildRequires:	libxml2-devel >= 1:2.6.31
+BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(find_lang) >= 1.23
+BuildRequires:	rpmbuild(macros) >= 1.311
 BuildRequires:	sqlite3-devel >= 3.0
 BuildRequires:	vte-devel >= 0.12.0
 Requires(post,postun):	gtk+2
@@ -31,6 +36,7 @@ Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
 Requires:	gdb
 Obsoletes:	nemiver-libs < 0.5.3
+Obsoletes:	nemiver-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -46,30 +52,18 @@ backend wykorzystujący dobrze znany GNU Debugger (gdb) do śledzenia
 programów w C/C++.
 
 %package devel
-Summary:	Header files for Nemiver library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Nemivera
-Group:		Development/Libraries
-Requires:	glibmm-devel >= 2.8.2
-Requires:	libgtop-devel >= 2.14
-Requires:	libxml2-devel >= 1:2.6.22
+Summary:	Header files for Nemiver
+Summary(pl.UTF-8):	Pliki nagłówkowe Nemivera
+Group:		X11/Development/Libraries
+Requires:	glibmm-devel >= 2.16.0
+Requires:	libgtop-devel >= 2.14.0
+Requires:	libxml2-devel >= 1:2.6.31
 
 %description devel
-Header files for Nemiver library.
+Header files for developing new debugging backends for Nemiver.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki Nemivera.
-
-%package static
-Summary:	Static Nemiver library
-Summary(pl.UTF-8):	Statyczna biblioteka Nemivera
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-Static Nemiver library.
-
-%description static -l pl.UTF-8
-Statyczna biblioteka Nemivera.
+Pliki nagłówkowe do rozwijania nowych backendów dla Nemivera.
 
 %prep
 %setup -q
@@ -87,8 +81,7 @@ Statyczna biblioteka Nemivera.
 %configure \
 	--disable-scrollkeeper \
 	--disable-schemas-install
-%{__make} \
-	GDB_PROG='%{_bindir}/gdb'
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -96,10 +89,11 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/*.{a,la}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/modules/*.{a,la}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/plugins/dbgperspective/*.{a,la}
 
-%find_lang %{name} --with-gnome
+%find_lang %{name} --with-gnome --with-omf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -129,6 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/*/apps/nemiver.png
 %{_iconsdir}/hicolor/*/apps/nemiver.svg
 %dir %{_libdir}/nemiver
+%attr(755,root,root) %{_libdir}/nemiver/libnemivercommon.so
 %{_libdir}/nemiver/config
 %dir %{_libdir}/nemiver/modules
 %attr(755,root,root) %{_libdir}/nemiver/modules/*.so
@@ -141,23 +136,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/nemiver/plugins/dbgperspective/menus
 %{_libdir}/nemiver/plugins/dbgperspective/plugin-descriptor.xml
 %{_libdir}/nemiver/plugins/dbgperspective/sqlscripts
-%dir %{_omf_dest_dir}/nemiver
-%{_omf_dest_dir}/nemiver/nemiver-C.omf
-%lang(es) %{_omf_dest_dir}/nemiver/nemiver-es.omf
-%lang(oc) %{_omf_dest_dir}/nemiver/nemiver-oc.omf
-%lang(sv) %{_omf_dest_dir}/nemiver/nemiver-sv.omf
 %{_mandir}/man1/nemiver.1*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/nemiver/libnemivercommon.so
-%{_libdir}/nemiver/libnemivercommon.la
-%dir %{_includedir}/nemiver
-%dir %{_includedir}/nemiver/dynmods
-%{_includedir}/nemiver/dynmods/*.h
-%dir %{_includedir}/nemiver/common
-%{_includedir}/nemiver/common/*.h
-
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/nemiver/libnemivercommon.a
+%{_includedir}/nemiver
