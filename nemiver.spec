@@ -36,7 +36,6 @@ Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
 Requires:	gdb
 Obsoletes:	nemiver-libs < 0.5.3
-Obsoletes:	nemiver-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -58,6 +57,7 @@ Group:		X11/Development/Libraries
 Requires:	glibmm-devel >= 2.16.0
 Requires:	libgtop-devel >= 2.14.0
 Requires:	libxml2-devel >= 1:2.6.31
+Obsoletes:	nemiver-static
 
 %description devel
 Header files for developing new debugging backends for Nemiver.
@@ -80,7 +80,8 @@ Pliki nagłówkowe do rozwijania nowych backendów dla Nemivera.
 %{__automake}
 %configure \
 	--disable-scrollkeeper \
-	--disable-schemas-install
+	--disable-schemas-install \
+	--disable-static
 %{__make}
 
 %install
@@ -89,9 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/*.{a,la}
-rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/modules/*.{a,la}
-rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/plugins/dbgperspective/*.{a,la}
+rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/modules/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/plugins/dbgperspective/*.la
 
 %find_lang %{name} --with-gnome --with-omf
 
