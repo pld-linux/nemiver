@@ -1,12 +1,12 @@
 Summary:	C/C++ debugger for GNOME
 Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
-Version:	0.6.4
+Version:	0.6.5
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.6/%{name}-%{version}.tar.bz2
-# Source0-md5:	67087d15289ca6149aa71ed60b603661
+# Source0-md5:	8986dd9eec47604826a8556d37e51746
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-configure.patch
 URL:		http://home.gna.org/nemiver/
@@ -26,6 +26,7 @@ BuildRequires:	libgtop-devel >= 2.14.0
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.31
 BuildRequires:	pkgconfig
+BuildRequires:	readline-devel
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.311
 BuildRequires:	sqlite3-devel >= 3.0

@@ -5,6 +5,6 @@ diff -urN nemiver-0.3.0/data/nemiver.desktop.in nemiver-0.3.0.new/data/nemiver.d
  _Comment=Debug Applications
  Icon=nemiver
  Exec=nemiver
--Categories=GNOME;Development;
+-Categories=GNOME;Development;Debugger;
 +Categories=GTK;GNOME;Development;Debugger;
  StartupNotify=true
