@@ -1,12 +1,12 @@
 Summary:	C/C++ debugger for GNOME
 Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
-Version:	0.6.5
+Version:	0.7.1
 Release:	1
 License:	GPL
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.6/%{name}-%{version}.tar.bz2
-# Source0-md5:	8986dd9eec47604826a8556d37e51746
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.7/%{name}-%{version}.tar.bz2
+# Source0-md5:	9e8dbf1a1ffdd510752857847bdc3283
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-configure.patch
 URL:		http://home.gna.org/nemiver/
