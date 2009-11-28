@@ -14,6 +14,7 @@ BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	boost-devel >= 1.35.0
+BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gettext-devel
 BuildRequires:	ghex-devel >= 2.22.0
 BuildRequires:	glibmm-devel >= 2.16.0
