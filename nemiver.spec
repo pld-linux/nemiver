@@ -9,6 +9,7 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.7/%{name}-%{version}.t
 # Source0-md5:	7159d64bd78dc55aad892077fb75dfec
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-configure.patch
+Patch2:		gcc-4.5.diff
 URL:		http://home.gna.org/nemiver/
 BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf >= 2.59
@@ -71,6 +72,7 @@ Pliki nagłówkowe do rozwijania nowych backendów dla Nemivera.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__glib_gettextize}
