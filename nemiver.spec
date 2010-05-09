@@ -25,6 +25,7 @@ BuildRequires:	gtksourceviewmm2-devel >= 2.2.0
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libglademm-devel >= 2.6.0
 BuildRequires:	libgtop-devel >= 2.14.0
+BuildRequires:	libpng12-devel
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.31
 BuildRequires:	pkgconfig
