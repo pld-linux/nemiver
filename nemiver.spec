@@ -38,6 +38,7 @@ Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
 Requires:	gdb
+Requires:	gtkmm >= 2.18
 Obsoletes:	nemiver-libs < 0.5.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
