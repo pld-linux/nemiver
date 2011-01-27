@@ -1,34 +1,31 @@
 Summary:	C/C++ debugger for GNOME
 Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
-Version:	0.7.3
+Version:	0.8.1
 Release:	1
 License:	GPL
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.7/%{name}-%{version}.tar.bz2
-# Source0-md5:	7159d64bd78dc55aad892077fb75dfec
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.8/%{name}-%{version}.tar.bz2
+# Source0-md5:	feafc1a247804091f15b8497ce18db24
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-configure.patch
-Patch2:		gcc-4.5.diff
 URL:		http://home.gna.org/nemiver/
 BuildRequires:	GConf2-devel >= 2.14.0
-BuildRequires:	autoconf >= 2.59
-BuildRequires:	automake
+BuildRequires:	autoconf >= 2.64
+BuildRequires:	automake >= 1:1.11.1
 BuildRequires:	boost-devel >= 1.35.0
 BuildRequires:	docbook-dtd412-xml
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-devel >= 0.17
 BuildRequires:	ghex-devel >= 2.22.0
 BuildRequires:	glibmm-devel >= 2.16.0
 BuildRequires:	gnome-doc-utils >= 0.14.0
 BuildRequires:	gtkmm-devel >= 2.12.0
 BuildRequires:	gtksourceviewmm2-devel >= 2.2.0
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	libglademm-devel >= 2.6.0
 BuildRequires:	libgtop-devel >= 2.14.0
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2.2
 BuildRequires:	libxml2-devel >= 1:2.6.31
 BuildRequires:	pkgconfig
-BuildRequires:	readline-devel
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.311
 BuildRequires:	sqlite3-devel >= 3.0
@@ -73,7 +70,6 @@ Pliki nagłówkowe do rozwijania nowych backendów dla Nemivera.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__glib_gettextize}
@@ -96,9 +92,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/modules/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/nemiver/plugins/dbgperspective/*.la
+rm $RPM_BUILD_ROOT%{_libdir}/nemiver/*.la
+rm $RPM_BUILD_ROOT%{_libdir}/nemiver/modules/*.la
+rm $RPM_BUILD_ROOT%{_libdir}/nemiver/plugins/dbgperspective/*.la
 
 %find_lang %{name} --with-gnome --with-omf
 
@@ -137,12 +133,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/nemiver/plugins
 %dir %{_libdir}/nemiver/plugins/dbgperspective
 %{_libdir}/nemiver/plugins/dbgperspective/dbgperspective.conf
-%{_libdir}/nemiver/plugins/dbgperspective/glade
 %{_libdir}/nemiver/plugins/dbgperspective/icons
 %attr(755,root,root) %{_libdir}/nemiver/plugins/dbgperspective/libdbgperspectiveplugin.so
 %{_libdir}/nemiver/plugins/dbgperspective/menus
 %{_libdir}/nemiver/plugins/dbgperspective/plugin-descriptor.xml
 %{_libdir}/nemiver/plugins/dbgperspective/sqlscripts
+%{_libdir}/nemiver/plugins/dbgperspective/ui
 %{_mandir}/man1/nemiver.1*
 
 %files devel
