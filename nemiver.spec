@@ -1,12 +1,12 @@
 Summary:	C/C++ debugger for GNOME
 Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
-Version:	0.8.1
-Release:	2
+Version:	0.9.0
+Release:	1
 License:	GPL
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.8/%{name}-%{version}.tar.bz2
-# Source0-md5:	feafc1a247804091f15b8497ce18db24
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.9/%{name}-%{version}.tar.xz
+# Source0-md5:	03a2c34d4c04fd69749c01975a97c0c2
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-configure.patch
 URL:		http://home.gna.org/nemiver/
@@ -16,11 +16,11 @@ BuildRequires:	automake >= 1:1.11.1
 BuildRequires:	boost-devel >= 1.35.0
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gettext-devel >= 0.17
-BuildRequires:	ghex-devel >= 2.22.0
+BuildRequires:	ghex-devel >= 3.0.0 
 BuildRequires:	glibmm-devel >= 2.16.0
 BuildRequires:	gnome-doc-utils >= 0.14.0
 BuildRequires:	gtkmm-devel >= 2.12.0
-BuildRequires:	gtksourceviewmm2-devel >= 2.2.0
+BuildRequires:	gtksourceviewmm3-devel
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libgtop-devel >= 2.14.0
 BuildRequires:	libtool >= 2:2.2
@@ -30,10 +30,10 @@ BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.311
 BuildRequires:	sqlite3-devel >= 3.0
 BuildRequires:	vte-devel >= 0.12.0
+Requires(post,postun):  glib2 >= 1:2.26.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
-Requires(post,preun):	GConf2
 Requires:	gdb
 Requires:	gtkmm >= 2.18
 Obsoletes:	nemiver-libs < 0.5.3
@@ -102,16 +102,12 @@ rm $RPM_BUILD_ROOT%{_libdir}/nemiver/plugins/dbgperspective/*.la
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%gconf_schema_install nemiver-dbgperspective.schemas
-%gconf_schema_install nemiver-workbench.schemas
+%glib_compile_schemas
 %scrollkeeper_update_post
 %update_icon_cache hicolor
 
-%preun
-%gconf_schema_uninstall nemiver-dbgperspective.schemas
-%gconf_schema_uninstall nemiver-workbench.schemas
-
 %postun
+%glib_compile_schemas
 %scrollkeeper_update_postun
 %update_icon_cache hicolor
 
@@ -119,8 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/nemiver
-%{_sysconfdir}/gconf/schemas/nemiver-dbgperspective.schemas
-%{_sysconfdir}/gconf/schemas/nemiver-workbench.schemas
+%{_datadir}/glib-2.0/schemas/org.nemiver.gschema.xml
 %{_datadir}/nemiver
 %{_desktopdir}/nemiver.desktop
 %{_iconsdir}/hicolor/*/apps/nemiver.png
