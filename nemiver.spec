@@ -8,7 +8,6 @@ Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.9/%{name}-%{version}.tar.xz
 # Source0-md5:	edaad1a0e8c0b6abcdfc49159d08c70d
 URL:		http://home.gna.org/nemiver/
-BuildRequires:	GConf2-devel >= 2.14.0
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11.1
 BuildRequires:	boost-devel >= 1.35.0
@@ -17,8 +16,9 @@ BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gdlmm-devel >= 3.2
 BuildRequires:	gettext-devel >= 0.17
 BuildRequires:	ghex-devel >= 3.0.0 
-BuildRequires:	glibmm-devel >= 2.16.0
+BuildRequires:	glibmm-devel >= 2.25.1
 BuildRequires:	gnome-doc-utils >= 0.14.0
+BuildRequires:	gsettings-desktop-schemas-devel
 BuildRequires:	gtkmm-devel >= 2.12.0
 BuildRequires:	gtksourceviewmm3-devel
 BuildRequires:	intltool >= 0.40.0
@@ -120,8 +120,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/nemiver.desktop
 %{_iconsdir}/hicolor/*/apps/nemiver.png
 %{_iconsdir}/hicolor/*/apps/nemiver.svg
-%{_sysconfdir}/gconf/schemas/nemiver-dbgperspective.schemas
-%{_sysconfdir}/gconf/schemas/nemiver-workbench.schemas
+%{_datadir}/glib-2.0/schemas/org.nemiver.gschema.xml
 %dir %{_libdir}/nemiver
 %attr(755,root,root) %{_libdir}/nemiver/libnemivercommon.so
 %{_libdir}/nemiver/config
