@@ -81,10 +81,10 @@ Pliki nagłówkowe do rozwijania nowych backendów dla Nemivera.
 %{__automake}
 %configure \
 	--with-default-gdb=%{_bindir}/gdb \
-	--disable-scrollkeeper \
 	--disable-schemas-install \
 	--disable-silent-rules \
-	--disable-static
+	--disable-static \
+	--enable-gsettings=yes
 %{__make}
 
 %install
