@@ -1,12 +1,12 @@
 Summary:	C/C++ debugger for GNOME
 Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
-Version:	0.9.4
+Version:	0.9.5
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.9/%{name}-%{version}.tar.xz
-# Source0-md5:	edaad1a0e8c0b6abcdfc49159d08c70d
+# Source0-md5:	eb181de2e92a850982987c1960fc4454
 URL:		http://home.gna.org/nemiver/
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11.1
@@ -15,7 +15,7 @@ BuildRequires:	docbook-dtd412-xml
 # gdlmm for dynamic layout
 BuildRequires:	gdlmm-devel >= 3.2
 BuildRequires:	gettext-devel >= 0.17
-BuildRequires:	ghex-devel >= 3.0.0 
+BuildRequires:	ghex-devel >= 3.0.0
 BuildRequires:	glibmm-devel >= 2.25.1
 BuildRequires:	gnome-doc-utils >= 0.14.0
 BuildRequires:	gsettings-desktop-schemas-devel
@@ -32,7 +32,7 @@ BuildRequires:	rpmbuild(macros) >= 1.311
 BuildRequires:	sqlite3-devel >= 3.0
 BuildRequires:	vte-devel >= 0.12.0
 BuildRequires:	yelp-tools
-Requires(post,postun):  glib2 >= 1:2.26.0
+Requires(post,postun):	glib2 >= 1:2.26.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
@@ -120,6 +120,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/nemiver.desktop
 %{_iconsdir}/hicolor/*/apps/nemiver.png
 %{_iconsdir}/hicolor/*/apps/nemiver.svg
+%{_iconsdir}/HighContrast/*/apps/nemiver.png
 %{_datadir}/glib-2.0/schemas/org.nemiver.gschema.xml
 %dir %{_libdir}/nemiver
 %attr(755,root,root) %{_libdir}/nemiver/libnemivercommon.so
