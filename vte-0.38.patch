@@ -1,0 +1,96 @@
+diff --git a/configure.ac b/configure.ac
+index d3fc668..94d3a40 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -359,10 +359,29 @@ AC_SUBST(NEMIVERCOMMON_LIBS)
+ AC_SUBST(NEMIVERCOMMON_CFLAGS)
+ 
+ dnl library dependencies for the nemiver common UI module
++
++dnl first what vte should we use?
++PKG_CHECK_EXISTS([vte-2.90 >= $LIBVTE_VERSION],
++		 [HAS_VTE_2_90=yes],
++		 [HAS_VTR_2_90=no])
++
++PKG_CHECK_EXISTS([vte-2.91 >= $LIBVTE_VERSION],
++		 [HAS_VTE_2_91=yes],
++		 [HAS_VTE_2_91=no])
++
++if test x$HAS_VTE_2_91 = xyes; then
++   VTE_TO_USE=vte-2.91
++   AC_DEFINE(HAS_VTE_2_91,1,[libvte 2.91 support])
++else
++   VTE_TO_USE=vte-2.90
++   AC_DEFINE(HAS_VTE_2_90,1,[libvtr 2.90 support])
++fi
++
++dnl then the other libraries of uicommon module.
+ DEP_UICOMMON=" gtkmm-3.0 >= $LIBGTKMM_VERSION \
+                gtk+-3.0 >= $LIBGTK_VERSION \
+                gtksourceviewmm-3.0 >= $LIBGTKSOURCEVIEWMM_VERSION \
+-               vte-2.90 >= $LIBVTE_VERSION"
++               $VTE_TO_USE >= $LIBVTE_VERSION"
+ 
+ PKG_CHECK_MODULES(NEMIVERUICOMMON, $DEP_UICOMMON $DEP_COMMON $DEP_MEMORYVIEW)
+ NEMIVERUICOMMON_CFLAGS="$NEMIVERUICOMMON_CFLAGS $CPPUNIT_CFLAGS"
+@@ -385,7 +404,7 @@ AC_SUBST(NEMIVERWORKBENCH_CFLAGS)
+ 
+ dnl library dependencies for the nemiver debug perspective plugin
+ DEP_PERSP="gtksourceviewmm-3.0 >= $LIBGTKSOURCEVIEWMM_VERSION \
+-           vte-2.90 >= $LIBVTE_VERSION"
++           $VTE_TO_USE >= $LIBVTE_VERSION"
+ 
+ PKG_CHECK_MODULES(NEMIVERDBGPERSP, $DEP_UICOMMON $DEP_VFS $DEP_PERSP $DEP_MEMORYVIEW $DEP_DYNAMICLAYOUT)
+ NEMIVERDBGPERSP_LIBS="$NEMIVERDBGPERSP_LIBS $CPPUNIT_LIBS"
+diff --git a/src/uicommon/nmv-terminal.cc b/src/uicommon/nmv-terminal.cc
+index 9985e6b..42408c7 100644
+--- a/src/uicommon/nmv-terminal.cc
++++ b/src/uicommon/nmv-terminal.cc
+@@ -46,6 +46,7 @@
+ #include <gtkmm/menu.h>
+ #include <gtkmm/builder.h>
+ #include <gtkmm/uimanager.h>
++#include <pangomm/fontdescription.h>
+ #include <vte/vte.h>
+ #include <glib/gi18n.h>
+ #include "common/nmv-exception.h"
+@@ -137,11 +137,18 @@ struct Terminal::Priv {
+         THROW_IF_FAIL (vte);
+ 
+         // Mandatory for vte 0.14	
++#ifdef HAS_VTE_2_91
++        Pango::FontDescription font_desc ("monospace");
++        vte_terminal_set_font (vte, font_desc.gobj());
++#else // HAS_VTE_2_90
+         vte_terminal_set_font_from_string (vte, "monospace");
++#endif
+ 
+         vte_terminal_set_scroll_on_output (vte, TRUE);
+         vte_terminal_set_scrollback_lines (vte, 1000);
++#ifdef HAS_VTE_2_90
+         vte_terminal_set_emulation (vte, "xterm");
++#endif
+ 
+         widget = Glib::wrap (w);
+         THROW_IF_FAIL (widget);
+@@ -267,7 +274,17 @@ struct Terminal::Priv {
+         THROW_IF_FAIL (slave_pty);
+         THROW_IF_FAIL (master_pty);
+ 
++#ifdef HAS_VTE_2_91
++        GError *err = 0;
++        VtePty *p = vte_pty_new_foreign_sync (master_pty, 0, &err);
++        GErrorSafePtr error (err);
++        SafePtr<VtePty, RefGObjectNative, UnrefGObjectNative> pty (p);
++        THROW_IF_FAIL2 (!error, error->message);
++
++        vte_terminal_set_pty (vte, pty.get());
++#else //HAS_VTE_2_90
+         vte_terminal_set_pty (vte, master_pty);
++#endif
+         return true;
+     }
+ };//end Terminal::Priv-- 
+-- 
+cgit v0.10.1
+

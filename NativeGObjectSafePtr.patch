@@ -1,0 +1,90 @@
+From 33749faf4b0b9b13e4e7e186a6237ca6ad916378 Mon Sep 17 00:00:00 2001
+From: Dodji Seketeli <dodji@seketeli.org>
+Date: Mon, 7 Jul 2014 13:42:04 +0200
+Subject: Consolidate NativeGObjectSafePtr definitions
+
+	* src/persp/dbgperspective/nmv-dbg-perspective.cc
+	(RefGObjectNative, UnrefGObjectNative): Move the definition of
+	these functors ...
+	* src/common/nmv-safe-ptr-utils.h: ... here.
+
+Signed-off-by: Dodji Seketeli <dodji@seketeli.org>
+
+diff --git a/src/common/nmv-safe-ptr-utils.h b/src/common/nmv-safe-ptr-utils.h
+index fdeb350..72211e8 100644
+--- a/src/common/nmv-safe-ptr-utils.h
++++ b/src/common/nmv-safe-ptr-utils.h
+@@ -30,7 +30,7 @@
+ #ifndef __NMV_SAFE_PTR_UTILS_H__
+ #define __NMV_SAFE_PTR_UTILS_H__
+ 
+-#include <glib.h>
++#include <glib-object.h>
+ #include "nmv-object.h"
+ #include "nmv-safe-ptr.h"
+ #include "nmv-namespace.h"
+@@ -115,11 +115,32 @@ struct GErrorUnref {
+     }
+ };
+ 
++struct RefGObjectNative {
++    void operator () (void *a_object)
++    {
++        if (a_object && G_IS_OBJECT (a_object)) {
++            g_object_ref (G_OBJECT (a_object));
++        }
++    }
++};
++
++struct UnrefGObjectNative {
++    void operator () (void *a_object)
++    {
++        if (a_object && G_IS_OBJECT (a_object)) {
++            g_object_unref (G_OBJECT (a_object));
++        }
++    }
++};
++
+ typedef SafePtr <gchar, CharsRef, GCharUnref> GCharSafePtr;
+ typedef SafePtr <Object, ObjectRef, ObjectUnref> ObjectSafePtr;
+ typedef SafePtr <gchar, CharsRef, DelCharsUnref> CharSafePtr;
+ typedef SafePtr <gunichar, UnicharsRef, DelUnicharsUnref> UnicharSafePtr;
+ typedef SafePtr<GError, GErrorRef, GErrorUnref> GErrorSafePtr;
++typedef SafePtr<void*,
++                RefGObjectNative,
++                UnrefGObjectNative> NativeGObjectSafePtr;
+ 
+ NEMIVER_END_NAMESPACE(common)
+ NEMIVER_END_NAMESPACE(nemiver)
+diff --git a/src/persp/dbgperspective/nmv-dbg-perspective.cc b/src/persp/dbgperspective/nmv-dbg-perspective.cc
+index 6e07ce7..6a7ff1b 100644
+--- a/src/persp/dbgperspective/nmv-dbg-perspective.cc
++++ b/src/persp/dbgperspective/nmv-dbg-perspective.cc
+@@ -836,24 +836,6 @@ struct UnrefGObject {
+     }
+ };
+ 
+-struct RefGObjectNative {
+-    void operator () (void *a_object)
+-    {
+-        if (a_object && G_IS_OBJECT (a_object)) {
+-            g_object_ref (G_OBJECT (a_object));
+-        }
+-    }
+-};
+-
+-struct UnrefGObjectNative {
+-    void operator () (void *a_object)
+-    {
+-        if (a_object && G_IS_OBJECT (a_object)) {
+-            g_object_unref (G_OBJECT (a_object));
+-        }
+-    }
+-};
+-
+ static
+ void gio_file_monitor_cb (const Glib::RefPtr<Gio::File>& file,
+                           const Glib::RefPtr<Gio::File>& other_file,
+-- 
+cgit v0.10.1
+

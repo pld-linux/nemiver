@@ -2,11 +2,14 @@ Summary:	C/C++ debugger for GNOME
 Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
 Version:	0.9.5
-Release:	3
+Release:	5
 License:	GPL
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.9/%{name}-%{version}.tar.xz
 # Source0-md5:	eb181de2e92a850982987c1960fc4454
+Patch0:		GErrorSafePtr.patch
+Patch1:		NativeGObjectSafePtr.patch
+Patch2:		vte-0.38.patch
 URL:		http://home.gna.org/nemiver/
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11.1
@@ -30,7 +33,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.311
 BuildRequires:	sqlite3-devel >= 3.0
-BuildRequires:	vte-devel >= 0.12.0
+BuildRequires:	vte-devel >= 0.38.0
 BuildRequires:	yelp-tools
 Requires(post,postun):	glib2 >= 1:2.26.0
 Requires(post,postun):	gtk-update-icon-cache
@@ -70,6 +73,9 @@ Pliki nagłówkowe do rozwijania nowych backendów dla Nemivera.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 %{__glib_gettextize}
