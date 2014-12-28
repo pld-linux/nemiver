@@ -17,7 +17,7 @@ BuildRequires:	boost-devel >= 1.35.0
 BuildRequires:	docbook-dtd412-xml
 # gdlmm for dynamic layout
 BuildRequires:	gdlmm-devel >= 3.2
-BuildRequires:	gettext-devel >= 0.17
+BuildRequires:	gettext-tools >= 0.17
 BuildRequires:	ghex-devel >= 3.0.0
 BuildRequires:	glibmm-devel >= 2.25.1
 BuildRequires:	gnome-doc-utils >= 0.14.0
