@@ -1,15 +1,14 @@
 Summary:	C/C++ debugger for GNOME
 Summary(pl.UTF-8):	Debugger C/C++ dla GNOME
 Name:		nemiver
-Version:	0.9.5
-Release:	6
+Version:	0.9.6
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/nemiver/0.9/%{name}-%{version}.tar.xz
-# Source0-md5:	eb181de2e92a850982987c1960fc4454
-Patch0:		GErrorSafePtr.patch
-Patch1:		NativeGObjectSafePtr.patch
-Patch2:		vte-0.38.patch
+# Source0-md5:	cf33f0eef4f392268a2bdf103e930bd3
+Patch0:		0001-Fix-compiliation-warnings-errors.patch
+Patch1:		0001-Use-RefPtr-bool-operator-in-the-conditions.patch
 URL:		http://home.gna.org/nemiver/
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11.1
@@ -75,7 +74,6 @@ Pliki nagłówkowe do rozwijania nowych backendów dla Nemivera.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__glib_gettextize}
@@ -126,8 +124,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/nemiver.desktop
 %{_iconsdir}/hicolor/*/apps/nemiver.png
 %{_iconsdir}/hicolor/*/apps/nemiver.svg
-%{_iconsdir}/HighContrast/*/apps/nemiver.png
+%{_iconsdir}/hicolor/symbolic/apps/nemiver-symbolic.svg
 %{_datadir}/glib-2.0/schemas/org.nemiver.gschema.xml
+%{_datadir}/appdata/nemiver.appdata.xml
 %dir %{_libdir}/nemiver
 %attr(755,root,root) %{_libdir}/nemiver/libnemivercommon.so
 %{_libdir}/nemiver/config
